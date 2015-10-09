@@ -1,0 +1,105 @@
+CS2014 Lab 2 : String Tokenizing
+
+Thursday 8th October
+
+User input in C using scanf can be fraught with dangers and
+difficulties. One particular problem is that when scanf does not return
+the expected value, it can be difficult to figure out why. Another,
+perhaps bigger problem is that standard input routines are often
+used for "buffer overflow" attacks, where the user uses a longer input
+than the program expects.
+
+An alternative approach is to read in user input into a string, and
+then divide up that string into the parts you want.
+
+A string in C is simply an array of characters. You can declare a
+string like this:
+        const int MAX_STRING = 256;
+	char buffer[MAX_STRING];
+
+To read a line of user input into a string, use the fgets
+function. You can use it like this:
+
+	fgets(buffer, MAX_STRING, stdin);
+
+buffer 		is the name of the string to read into
+MAX_STRING 	the length of string that can be read is MAX_STRING-1
+stdin		is the name of the file that you are reading from
+		(in this case the keyboard)
+
+If you want to check that the string was read correctly, simply use:
+
+	printf("%s\n", buffer);
+
+A string is simply an array of characters.  However, the characters of
+the string does not have to take up all the space in the
+array. Instead, a zero character (written '\0') is used to mark the
+end of the string, which may or may not be the last element of the
+array. So if you wanted to write out the string character by character
+you could do:
+
+	for ( i = 0; buffer[i] != '\0'; i++ ) {
+	  printf("%c", buffer[i]);
+	}
+
+Once you have read the line of text in, the next task is to break it
+up into parts. One solution is to use sscanf to find individual items
+in the string, just as you would use scanf to read directly from the
+keyboard. For example, if you are expecting a decimal integer and a
+double precision floating point number in the line, you could write:
+
+	int num1;
+	double num2;
+	sscanf(buffer, "%d %lf", &num1, &num2);
+
+
+However, we are going to break up the line of text diferently. We are
+going to write a string tokenizer function to do it. A string
+tokeniser can be used to extract the individual words in a string.
+
+For example, given the string, "Nothing but the rain", we would like
+to break it up into component words, i.e. "Nothing", "but", "the", and
+"rain". The individual words (tokens) are seperated by one or more
+spaces, and there may be any number of spaces before, after, or
+between tokens.
+
+Write a function with the following prototype:
+int tokenise(char str[], int start, char result[]);
+
+The function should find the next token starting at index 'start' in
+the string 'str'. The token should be copied into the string 'result',
+which is another character array passed to the function, so that the
+string is communicated back to the caller.
+
+The function returns an integer value, which should be the next
+position in 'str' after the returned token. Next time the function is
+called, this will be the next value of start. If there are no more
+tokens, then the returned integer value should be -1.
+
+You might use this function as follows:
+char line[] = "Nothing but the rain";
+char result[256];
+int start;
+
+start = tokenise(line, 0, result);
+while ( start != -1 ) {
+  printf("%s\n", result);
+  start = tokenise(line, start, result);
+}
+
+Write a small program that reads in a line of text from the command
+line, breaks the line into tokens, and writes each token out on its
+own line.
+
+Your code should use appropriate, commenting, indenting, style and
+naming.
+
+This lab will be marked, and will count towards your end of year mark,
+and will be submitted via Blackboard. The deadline is 23:59 on
+Wednesday 14th October 2015. Submissions via Blackboard will open
+shortly. To be marked you need to be available to demonstrate
+your code at your regular lab on October 15th.
+
+All work should be your own. If your work is not complete, not
+working, not good, not nicely written, submit it anyway. But make sure
+to submit it on time.
