@@ -9,12 +9,12 @@ const char DELIMITER = ' ';
  *   result : string to store token into
  * Returns index 1 after end of the token.
  */
-int tokenise(char str[], int start, char result[]);
+int tokenise(char *str, int start, char *result);
 
 int main()
 {
-    char line[] = "Nothing but the rain   ";
-    char result[256];
+    char line[] = "Nothing but the rain  ";
+    char result[MAX_STRING];
     int start;
 
     start = tokenise(line, 0, result);
@@ -22,11 +22,13 @@ int main()
         printf("%s\n", result);
         start = tokenise(line, start, result);
     }
-    printf("%s\n", result);    
+    if (result[0] != '\0') {
+        printf("%s\n", result);    
+    }
     return 0;
 }
 
-int tokenise(char str[], int start, char result[])
+int tokenise(char *str, int start, char *result)
 {
     char ch = str[start];
     while (ch == DELIMITER && ch != '\0')
