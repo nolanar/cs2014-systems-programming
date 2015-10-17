@@ -3,6 +3,7 @@
 
 /** Stack data structure.
  *
+ *  Node values are of type double.
  */
 typedef struct stack *stack_t;
 
@@ -19,9 +20,9 @@ stack_t stack_new();
  */
 void stack_free(stack_t stack);
 
-/** Puts new int valued element on top of stack.
+/** Puts new double valued element on top of stack.
  */
-void stack_push(stack_t stack, int value);
+void stack_push(stack_t stack, double value);
 
 /** Removes top element from stack and returns it's value.
  *
