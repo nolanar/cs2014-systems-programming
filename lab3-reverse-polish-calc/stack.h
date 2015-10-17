@@ -13,10 +13,7 @@ typedef struct stack *stack_t;
  */
 stack_t stack_new();
 
-/** Destroy stack.
- *
- *  Precondition:
- *  The stack must be empty.
+/** Destroys stack.
  */
 void stack_free(stack_t stack);
 
@@ -29,6 +26,10 @@ void stack_push(stack_t stack, double value);
  *  Precondition:
  *  The stack must not be empty.
  */
-int stack_pop(stack_t stack);
+double stack_pop(stack_t stack);
+
+/** Returns: true if stack is empty, false otherwise.
+ */
+_Bool stack_isempty(stack_t stack);
 
 #endif
