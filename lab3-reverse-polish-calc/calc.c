@@ -35,8 +35,19 @@ int main()
         if (strcmp(expression, "quit\n") == 0) {
             break;
         }
+
         double result = evaluate(expression);
-        printf("%g\n", result);
+
+        char *str_result;
+        if (isnan(result)) {
+            str_result = "ERROR: expression is not well formed";
+        } else if (!isfinite(result)) {
+            str_result = "ERROR: division by 0 occured";
+        } else {
+            sprintf(str_result, "%g", result);
+        }
+        printf("%s\n", str_result);
+
     } while (1);
 
     return 0;
