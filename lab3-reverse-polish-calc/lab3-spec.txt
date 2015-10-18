@@ -1,4 +1,4 @@
-CS2014 Lab 3 : Reverse Polisn Notation Calculator
+CS2014 Lab 3 : Reverse Polish Notation Calculator
 
 Thursday 15th October
 
@@ -11,7 +11,7 @@ For example, an interaction with your program might look something like:
     mycalc> Please enter a postfix expression
     mycalc> 7 8 3 X 28 + +
     mycalc> 59
-    
+
 The operators that you calculator should support are plus (+),
 minus (-), multiply (X) and divide (/), and they should operate
 on double precision floating point numbers.
