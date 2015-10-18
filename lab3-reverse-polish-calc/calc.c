@@ -28,6 +28,12 @@ double evaluate(char *expression);
  */
 _Bool isoperator(char *token);
 
+/** Returns:
+ *  a `op` b    if op is in {'+', '-', '*', '/'}
+ *  NAN         otherwise
+ */
+double operate(double a, double b, char op);
+
 int main()
 {
     printf(HELP_TEXT);
@@ -69,15 +75,9 @@ double evaluate(char *expression)
         if (isdouble && !invalid) {
             stack_push(stack, value);
         } else if (isoperator(token) && stack_size(stack) > 1) {
-            double a = stack_pop(stack);
             double b = stack_pop(stack);
-            char ch = token[0];
-            double result =
-                ch == '+' ? a + b:
-                ch == '-' ? a - b:
-                ch == '*' ? a * b:
-                ch == '/' ? a / b:
-                0;
+            double a = stack_pop(stack);
+            double result = operate(a, b, token[0]);
             if (!isfinite(result)) {
                 state = ZERO_DIVISION;
                 break;
@@ -107,4 +107,13 @@ _Bool isoperator(char *token)
     char ch = token[0];
     _Bool isopchar = ch == '+' || ch == '-'|| ch == '*' || ch == '/';
     return token[1] == '\0' && isopchar;
+}
+
+double operate(double a, double b, char op)
+{
+    return op == '+' ? a + b:
+           op == '-' ? a - b:
+           op == '*' ? a * b:
+           op == '/' ? a / b:
+           NAN;
 }
