@@ -1,6 +1,8 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <stddef.h>
+
 /** Stack data structure.
  *
  *  Node values are of type double.
@@ -31,5 +33,9 @@ double stack_pop(stack_t stack);
 /** Returns: true if stack is empty, false otherwise.
  */
 _Bool stack_isempty(stack_t stack);
+
+/** Returns the number of elements on the stack.
+ */
+size_t stack_size(stack_t stack);
 
 #endif
