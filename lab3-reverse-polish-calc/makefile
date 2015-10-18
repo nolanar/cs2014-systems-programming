@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -Wall
 COMPILE = $(CC) $(CFLAGS)
 
-TARGET = a.out
+TARGET = calculator.out
 
 all: $(TARGET)
 
