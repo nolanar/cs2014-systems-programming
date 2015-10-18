@@ -29,7 +29,11 @@ double evaluate(char *expression);
 _Bool isoperator(char *token);
 
 /** Returns:
+<<<<<<< HEAD
  *  a `op` b    if op is in {'+', '-', '*', '/'}
+=======
+ *  b `op` a    if op is in {'+', '-', '*', '/'}
+>>>>>>> refs/remotes/origin/master
  *  NAN         otherwise
  */
 double operate(double a, double b, char op);
@@ -111,9 +115,16 @@ _Bool isoperator(char *token)
 
 double operate(double a, double b, char op)
 {
+<<<<<<< HEAD
     return op == '+' ? a + b:
            op == '-' ? a - b:
            op == '*' ? a * b:
            op == '/' ? a / b:
+=======
+    return op == '+' ? b + a:
+           op == '-' ? b - a:
+           op == '*' ? b * a:
+           op == '/' ? b / a:
+>>>>>>> refs/remotes/origin/master
            NAN;
 }
