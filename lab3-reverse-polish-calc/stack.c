@@ -5,23 +5,23 @@
 typedef struct node {
     double data;
     struct node *next;
-} *node_t;
+} *node_type;
 
 struct stack {
-    node_t top;
+    node_type top;
     size_t size;
 };
 
-stack_t stack_new()
+stack_type stack_new()
 {
-    stack_t stack = (stack_t) malloc(sizeof(struct stack));
+    stack_type stack = (stack_type) malloc(sizeof(struct stack));
     stack->top = NULL;
     stack->size = 0;
 
     return stack;
 }
 
-void stack_free(stack_t stack)
+void stack_free(stack_type stack)
 {
     while (!stack_isempty(stack)) {
         stack_pop(stack);
@@ -29,10 +29,10 @@ void stack_free(stack_t stack)
     free(stack);
 }
 
-void stack_push(stack_t stack, double value)
+void stack_push(stack_type stack, double value)
 {
     // Create new node
-    node_t top_new = (node_t) malloc(sizeof(struct node));
+    node_type top_new = (node_type) malloc(sizeof(struct node));
     top_new->data = value;
     top_new->next = stack->top;
 
@@ -41,13 +41,13 @@ void stack_push(stack_t stack, double value)
     stack->size++;
 }
 
-double stack_pop(stack_t stack)
+double stack_pop(stack_type stack)
 {
     // Precondition: stack must not be empty
     assert(!stack_isempty(stack));
 
     // Get value of top element
-    node_t top_old = stack->top;
+    node_type top_old = stack->top;
     double value = top_old->data;
 
     // Point top to next in list
@@ -58,12 +58,12 @@ double stack_pop(stack_t stack)
     return value;
 }
 
-_Bool stack_isempty(stack_t stack)
+_Bool stack_isempty(stack_type stack)
 {
     return stack->top == NULL;
 }
 
-size_t stack_size(stack_t stack)
+size_t stack_size(stack_type stack)
 {
     return stack->size;
 }
