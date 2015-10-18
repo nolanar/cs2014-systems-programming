@@ -6,6 +6,10 @@
 
 #define MAX_STRING 256
 
+const char HELP_TEXT[] =
+    "Enter an expression in reverse polish notation to evaluate.\n"
+    "Enter 'quit' to exit program.\n";
+
 /** Evaluates an expression in reverse polish notation.
  *
  *  Parameters:
@@ -22,6 +26,7 @@ _Bool isoperator(char *token);
 
 int main()
 {
+    printf(HELP_TEXT);
     char expression[MAX_STRING];
     do {
         printf(">>> ");
@@ -31,7 +36,7 @@ int main()
             break;
         }
         double result = evaluate(expression);
-        printf("Result: %g\n", result);
+        printf("%g\n", result);
     } while (1);
 
     return 0;
