@@ -35,7 +35,7 @@ int main()
     do {
         printf(">>> ");
         fgets(expression, MAX_STRING, stdin);
-        // End program if user enters 'quit'
+        /* End program if user enters 'quit' */
         if (strcmp(expression, "quit\n") == 0) {
             break;
         }
@@ -53,9 +53,12 @@ int main()
     return 0;
 }
 
+enum evaluate_state {WELL_FORMED, MALFORMED, ZERO_DIVISION};
+
 double evaluate(char *expression)
 {
-    stack_t stack = stack_new();
+    stack_type stack = stack_new();
+    enum evaluate_state state = WELL_FORMED;
 
     char token[MAX_STRING];
     int index = tokenise(expression, 0, token);
@@ -75,16 +78,23 @@ double evaluate(char *expression)
                 ch == '*' ? a * b:
                 ch == '/' ? a / b:
                 0;
+            if (!isfinite(result)) {
+                state = ZERO_DIVISION;
+                break;
+            }
             stack_push(stack, result);
         } else {
-            return NAN;
+            state = MALFORMED;
+            break;
         }
         index = tokenise(expression, index, token);
     }
 
     double result;
-    if (stack_size(stack) == 1) {
+    if (state == WELL_FORMED && stack_size(stack) == 1) {
         result = stack_pop(stack);
+    } else if (state == ZERO_DIVISION) {
+        result = INFINITY;
     } else {
         result = NAN;
     }
