@@ -22,6 +22,10 @@ const char HELP_TEXT[] =
  */
 double evaluate(char *expression);
 
+/** Returns:
+ *  true        if token consists of one of {'+', '-', '*', '/'}
+ *  flase       otherwise
+ */
 _Bool isoperator(char *token);
 
 int main()
@@ -31,23 +35,19 @@ int main()
     do {
         printf(">>> ");
         fgets(expression, MAX_STRING, stdin);
-        // End program if 'quit' is entered by user.
+        // End program if user enters 'quit'
         if (strcmp(expression, "quit\n") == 0) {
             break;
         }
-
         double result = evaluate(expression);
 
-        char *str_result;
         if (isnan(result)) {
-            str_result = "ERROR: expression is not well formed";
+            printf("ERROR: expression is not well formed\n");
         } else if (!isfinite(result)) {
-            str_result = "ERROR: division by 0 occured";
+            printf("ERROR: division by 0 occured\n");
         } else {
-            sprintf(str_result, "%g", result);
+            printf("%g\n", result);
         }
-        printf("%s\n", str_result);
-
     } while (1);
 
     return 0;
