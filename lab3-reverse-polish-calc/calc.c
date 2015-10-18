@@ -29,14 +29,14 @@ const char HELP_TEXT[] =
 double evaluate(char *expression);
 
 /** Returns:
- *  true        if token matches a double
+ *  true        if token matches a finite double
  *  false       otherwise
  */
 _Bool is_double(char *token);
 
 /** Returns double that matches token
  *
- *  Precondition: token must match a double
+ *  Precondition: token must match a finite double
  */
 double get_double(char *token);
 
@@ -134,9 +134,9 @@ double evaluate(char *expression)
 _Bool is_double(char *token)
 {
     double value;
-    char invalid = '\0';
-    int hasdouble = sscanf(token, "%lf %c", &value, &invalid);
-    return hasdouble && !invalid;
+    char has_extra_chars = '\0';
+    int has_double = sscanf(token, "%lf %c", &value, &has_extra_chars);
+    return has_double && isfinite(value) && !has_extra_chars;
 }
 
 double get_double(char *token)
