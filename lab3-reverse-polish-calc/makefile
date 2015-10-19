@@ -9,7 +9,7 @@ all: $(TARGET)
 $(TARGET): calc.o stack.o token.o
 	$(COMPILE) -o $(TARGET) calc.o stack.o token.o
 
-calc.o: calc.c stack.h token.h
+calc.o: calc.c calc.h stack.h token.h
 	$(COMPILE) -c calc.c
 
 stack.o: stack.c stack.h
