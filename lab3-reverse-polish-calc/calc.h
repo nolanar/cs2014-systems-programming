@@ -18,18 +18,6 @@
 double evaluate(char *expression);
 
 /** Returns:
- *  true        if token matches a finite double
- *  false       otherwise
- */
-_Bool is_double(char *token);
-
-/** Returns double that matches token
- *
- *  Precondition: token must match a finite double
- */
-double get_double(char *token);
-
-/** Returns:
  * true         if ch is operator char
  * false        otherwise
  *

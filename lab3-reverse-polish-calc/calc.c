@@ -2,7 +2,7 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-#include "token.h"
+#include "strutil.h"
 #include "stack.h"
 #include "calc.h"
 
@@ -81,23 +81,6 @@ double evaluate(char *expression)
     }
     stack_free(stack);
     return result;
-}
-
-_Bool is_double(char *token)
-{
-    double value;
-    char has_extra_chars = '\0';
-    int has_double = sscanf(token, "%lf %c", &value, &has_extra_chars);
-    return has_double && isfinite(value) && !has_extra_chars;
-}
-
-double get_double(char *token)
-{
-    assert(is_double(token));
-
-    double value;
-    sscanf(token, "%lf", &value);
-    return value;
 }
 
 _Bool valid_operation(stack_type stack, char *token)
