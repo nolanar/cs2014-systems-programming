@@ -1,4 +1,7 @@
 #include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <assert.h>
 #include "strutil.h"
 
 int tokenise(char *str, int start, char *result)
@@ -28,7 +31,7 @@ _Bool is_double(char *str)
 
 double get_double(char *str)
 {
-    assert(is_double(token));
+    assert(is_double(str));
 
     double value;
     sscanf(str, "%lf", &value);
