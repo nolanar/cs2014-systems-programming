@@ -32,7 +32,7 @@ void stack_free(stack_type stack)
 void stack_push(stack_type stack, double value)
 {
     /* Create new node */
-    struct node *top_new = (struct node *) malloc(sizeof(struct node));
+    struct node *top_new = malloc(sizeof(struct node));
     top_new->data = value;
     top_new->next = stack->top;
 
