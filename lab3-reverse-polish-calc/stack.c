@@ -12,16 +12,16 @@ struct stack {
     size_t size;
 };
 
-stack_type stack_new()
+struct stack *stack_new()
 {
-    stack_type stack = (stack_type) malloc(sizeof(struct stack));
+    struct stack *stack = malloc(sizeof *stack);
     stack->top = NULL;
     stack->size = 0;
 
     return stack;
 }
 
-void stack_free(stack_type stack)
+void stack_free(struct stack *stack)
 {
     while (!stack_isempty(stack)) {
         stack_pop(stack);
@@ -29,10 +29,10 @@ void stack_free(stack_type stack)
     free(stack);
 }
 
-void stack_push(stack_type stack, double value)
+void stack_push(struct stack *stack, double value)
 {
     /* Create new node */
-    struct node *top_new = malloc(sizeof(struct node));
+    struct node *top_new = malloc(sizeof *top_new);
     top_new->data = value;
     top_new->next = stack->top;
 
@@ -41,7 +41,7 @@ void stack_push(stack_type stack, double value)
     stack->size++;
 }
 
-double stack_pop(stack_type stack)
+double stack_pop(struct stack *stack)
 {
     /* Precondition: stack must not be empty */
     assert(!stack_isempty(stack));
@@ -58,12 +58,12 @@ double stack_pop(stack_type stack)
     return value;
 }
 
-_Bool stack_isempty(stack_type stack)
+_Bool stack_isempty(struct stack *stack)
 {
     return stack->top == NULL;
 }
 
-size_t stack_size(stack_type stack)
+size_t stack_size(struct stack *stack)
 {
     return stack->size;
 }
