@@ -36,7 +36,7 @@ int main()
             printf("ERROR: division by 0 occured\n");
         }
         else {
-            printf("%g\n", result);
+            printf("%lg\n", result);
         }
     } while (1);
 
