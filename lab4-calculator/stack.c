@@ -39,8 +39,8 @@ void NAME##_stack_push(struct stack *stack, TYPE value) \
     *ptr = value;                                       \
     ptr_stack_push(stack, ptr);                         \
 }
-DEFINE_STACK_PUSH(double, double);
-DEFINE_STACK_PUSH(char, char);
+// DEFINE_STACK_PUSH(double, double);
+// DEFINE_STACK_PUSH(char, char);
 
 void ptr_stack_push(struct stack *stack, void *value)
 {
@@ -62,8 +62,8 @@ TYPE NAME##_stack_pop(struct stack *stack)  \
     free(ptr);                              \
     return value;                           \
 }
-DEFINE_STACK_POP(double, double);
-DEFINE_STACK_POP(char, char);
+// DEFINE_STACK_POP(double, double);
+// DEFINE_STACK_POP(char, char);
 
 void *ptr_stack_pop(struct stack *stack)
 {
@@ -91,3 +91,13 @@ size_t stack_size(struct stack *stack)
 {
     return stack->size;
 }
+
+#define DEFINE_STACK(TYPE, NAME)        \
+    DEFINE_STACK_PUSH(TYPE, NAME);      \
+    DEFINE_STACK_POP(TYPE, NAME);
+
+DEFINE_STACK(double, double);
+DEFINE_STACK(char, char);
+DEFINE_STACK(unsigned char, uchar);
+DEFINE_STACK(int, int);
+DEFINE_STACK(unsigned int, uint);
