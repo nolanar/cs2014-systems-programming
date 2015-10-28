@@ -6,43 +6,6 @@
 #include "stack.h"
 #include "postfix.h"
 
-const char HELP_TEXT[] =
-    "Enter an expression in reverse polish notation to evaluate.\n"
-    "Operators:\n"
-    "  +  Add\n"
-    "  -  Subtract\n"
-    "  *  Multiply\n"
-    "  /  Divide\n"
-    "Enter 'quit' to exit program.\n";
-
-int main()
-{
-    printf(HELP_TEXT);
-    char expression[MAX_STRING];
-    do {
-        printf(">>> ");
-        fgets(expression, MAX_STRING, stdin);
-        /* Exit input loop if user enters 'quit' */
-        if (strcmp(expression, "quit\n") == 0) {
-            break;
-        }
-
-        double result = evaluate(expression);
-
-        if (isnan(result)) {
-            printf("ERROR: expression is not well formed\n");
-        }
-        else if (!isfinite(result)) {
-            printf("ERROR: division by 0 occured\n");
-        }
-        else {
-            printf("%lg\n", result);
-        }
-    } while (1);
-
-    return 0;
-}
-
 double evaluate(char *expression)
 {
     stack_type stack = stack_new();
@@ -112,4 +75,31 @@ double operate(double a, double b, char op)
     }
 
     return result;
+}
+
+char *infix_to_postfix(char *expression)
+{
+    const char delims[] = "()+-*/";
+
+    stack_type stack = stack_new();
+    tokenizer toke = tokenizer_new(expression, 0, delims);
+
+    char *prev_token = "";
+    while(next_token(toke)[0] != '\0') {
+        char *token = get_token(toke);
+        if (token[0] == '-') {
+
+        }
+
+        prev_token = token;
+    }
+
+    return null;
+}
+
+//Test client
+int main()
+{
+
+    return 0;
 }

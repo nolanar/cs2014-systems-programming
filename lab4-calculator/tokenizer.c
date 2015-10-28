@@ -12,7 +12,8 @@ struct tokenizer {
     char *token;
 };
 
-_Bool isDelim(struct tokenizer *toke, char ch);
+_Bool priv_isDelim(struct tokenizer *toke, char ch);
+int priv_next_token(struct tokenizer *toke, char *token);
 
 struct tokenizer *tokenizer_new(char *str, int start, char *delims) 
 {
@@ -25,12 +26,33 @@ struct tokenizer *tokenizer_new(char *str, int start, char *delims)
     return toke;
 }
 
+void tokenizer_free(struct tokenizer *toke)
+{
+    free(toke->token);
+    free(toke);
+}
+
 char *next_token(struct tokenizer *toke)
-//(char *str, int start, char *token)
+{
+    toke->start = priv_next_token(toke, toke->token);
+    return toke->token;
+}
+
+char *peek_token(struct tokenizer *toke, char *next_token)
+{
+    priv_next_token(toke, next_token);
+    return next_token;
+}
+
+char *get_token(struct tokenizer *toke)
+{
+    return toke->token;
+}
+
+int priv_next_token(struct tokenizer *toke, char *token)
 {
     char *str = toke->str;
     int start = toke->start;
-    char *token = toke->token;
     char ch = str[start];
     // ignore leading whitespace
     if (toke->whitespace) {
@@ -40,27 +62,22 @@ char *next_token(struct tokenizer *toke)
         }
     }
     int i = 0;
-    if (isDelim(toke, ch)) {
+    if (priv_isDelim(toke, ch)) {
         token[i] = ch;
         i++;
     } else {
-        while (ch != '\0' && !isDelim(toke, ch)) {
+        while (ch != '\0' && !priv_isDelim(toke, ch)) {
             token[i] = ch;
             i++;
             ch = str[start + i];
         }
     }
     token[i] = '\0';
-    toke->start = ch == '\0' ? -1 : start + i;
-    return token;
+    start = ch == '\0' ? -1 : start + i;
+    return start;
 }
 
-char *get_token(struct tokenizer *toke)
-{
-    return toke->token;
-}
-
-_Bool isDelim(struct tokenizer *toke, char ch)
+_Bool priv_isDelim(struct tokenizer *toke, char ch)
 {
     if (toke->whitespace && isspace(ch)) {
         return 1;
@@ -75,16 +92,5 @@ _Bool isDelim(struct tokenizer *toke, char ch)
         }
         i++;
     } while (delim != '\0');
-    return 0;
-}
-
-int main()
-{
-    char *my_string = "Test string (-100+2.54-4)";
-    char *delims = "()+-";
-    struct tokenizer *toke = tokenizer_new(my_string, 0, delims);
-    while(next_token(toke)[0] != '\0') {
-        printf("%s\n", get_token(toke));
-    }
     return 0;
 }
