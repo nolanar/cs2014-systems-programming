@@ -54,14 +54,14 @@ double evaluate(char *expression)
         /* If token is a number then push to stack */
         if (is_double(token)) {
             double value = get_double(token);
-            stack_push(stack, value);
+            double_stack_push(stack, value);
         }
         /* If token is an operator then apply it to top two items in stack */
         else if (valid_operation(stack, token)) {
-            double b = stack_pop(stack);
-            double a = stack_pop(stack);
+            double b = double_stack_pop(stack);
+            double a = double_stack_pop(stack);
             double result = operate(a, b, token[0]);
-            stack_push(stack, result);
+            double_stack_push(stack, result);
         }
         /* If token is invalid then exit loop */
         else {
@@ -74,7 +74,7 @@ double evaluate(char *expression)
     double result;
     /* There should be exactaly one number remaining on stack */
     if (expression_valid && stack_size(stack) == 1) {
-        result = stack_pop(stack);
+        result = double_stack_pop(stack);
     }
     else {
         result = NAN;

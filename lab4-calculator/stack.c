@@ -3,7 +3,7 @@
 #include "stack.h"
 
 struct node {
-    double data;
+    void *data;
     struct node *next;
 };
 
@@ -24,12 +24,26 @@ struct stack *stack_new()
 void stack_free(struct stack *stack)
 {
     while (!stack_isempty(stack)) {
-        stack_pop(stack);
+        ptr_stack_pop(stack);
     }
     free(stack);
 }
 
-void stack_push(struct stack *stack, double value)
+void double_stack_push(struct stack *stack, double value)
+{
+    double *ptr = malloc(sizeof *ptr);
+    *ptr = value;
+    ptr_stack_push(stack, ptr);
+}
+
+void char_stack_push(struct stack *stack, char value)
+{
+    char *ptr = malloc(sizeof *ptr);
+    *ptr = value;
+    ptr_stack_push(stack, ptr);
+}
+
+void ptr_stack_push(struct stack *stack, void *value)
 {
     /* Create new node */
     struct node *top_new = malloc(sizeof *top_new);
@@ -41,14 +55,30 @@ void stack_push(struct stack *stack, double value)
     stack->size++;
 }
 
-double stack_pop(struct stack *stack)
+double double_stack_pop(struct stack *stack)
+{
+    double *ptr = ptr_stack_pop(stack);
+    double value = *ptr;
+    free(ptr);
+    return value;
+}
+
+char char_stack_pop(struct stack *stack)
+{
+    char *ptr = ptr_stack_pop(stack);
+    char value = *ptr;
+    free(ptr);
+    return value;
+}
+
+void *ptr_stack_pop(struct stack *stack)
 {
     /* Precondition: stack must not be empty */
     assert(!stack_isempty(stack));
 
     /* Get value of top element */
     struct node *top_old = stack->top;
-    double value = top_old->data;
+    void *value = top_old->data;
 
     /* Point top to next in list */
     stack->top = top_old->next;
