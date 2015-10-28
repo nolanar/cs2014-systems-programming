@@ -12,6 +12,9 @@ struct stack {
     size_t size;
 };
 
+void ptr_stack_push(struct stack *stack, void *value);
+void *ptr_stack_pop(struct stack *stack);
+
 struct stack *stack_new()
 {
     struct stack *stack = malloc(sizeof *stack);
@@ -29,19 +32,15 @@ void stack_free(struct stack *stack)
     free(stack);
 }
 
-void double_stack_push(struct stack *stack, double value)
-{
-    double *ptr = malloc(sizeof *ptr);
-    *ptr = value;
-    ptr_stack_push(stack, ptr);
+#define DEFINE_STACK_PUSH(TYPE, NAME)                   \
+void NAME##_stack_push(struct stack *stack, TYPE value) \
+{                                                       \
+    TYPE *ptr = malloc(sizeof *ptr);                    \
+    *ptr = value;                                       \
+    ptr_stack_push(stack, ptr);                         \
 }
-
-void char_stack_push(struct stack *stack, char value)
-{
-    char *ptr = malloc(sizeof *ptr);
-    *ptr = value;
-    ptr_stack_push(stack, ptr);
-}
+DEFINE_STACK_PUSH(double, double);
+DEFINE_STACK_PUSH(char, char);
 
 void ptr_stack_push(struct stack *stack, void *value)
 {
@@ -55,21 +54,16 @@ void ptr_stack_push(struct stack *stack, void *value)
     stack->size++;
 }
 
-double double_stack_pop(struct stack *stack)
-{
-    double *ptr = ptr_stack_pop(stack);
-    double value = *ptr;
-    free(ptr);
-    return value;
+#define DEFINE_STACK_POP(TYPE, NAME)        \
+TYPE NAME##_stack_pop(struct stack *stack)  \
+{                                           \
+    TYPE *ptr = ptr_stack_pop(stack);       \
+    TYPE value = *ptr;                      \
+    free(ptr);                              \
+    return value;                           \
 }
-
-char char_stack_pop(struct stack *stack)
-{
-    char *ptr = ptr_stack_pop(stack);
-    char value = *ptr;
-    free(ptr);
-    return value;
-}
+DEFINE_STACK_POP(double, double);
+DEFINE_STACK_POP(char, char);
 
 void *ptr_stack_pop(struct stack *stack)
 {

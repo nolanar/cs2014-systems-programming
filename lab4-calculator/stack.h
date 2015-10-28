@@ -24,7 +24,6 @@ void stack_free(stack_type stack);
  */
 void double_stack_push(stack_type stack, double value);
 void char_stack_push(stack_type stack, char value);
-void ptr_stack_push(stack_type stack, void *value);
 
 /** Removes top element from stack and returns it's value.
  *
@@ -33,7 +32,6 @@ void ptr_stack_push(stack_type stack, void *value);
  */
 double double_stack_pop(struct stack *stack);
 char char_stack_pop(stack_type stack);
-void *ptr_stack_pop(stack_type stack);
 
 /** Returns: true if stack is empty, false otherwise.
  */
