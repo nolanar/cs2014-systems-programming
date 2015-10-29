@@ -26,7 +26,18 @@ void NAME##_stack_push(stack_type, TYPE value);             \
  * Example use:                                             \
  * double pi_approx = double_stack_pop(my_stack)            \
  */                                                         \
-TYPE NAME##_stack_pop(stack_type);
+TYPE NAME##_stack_pop(stack_type);                          \
+/**                                                         \
+ * Returns but does not remove top element from the stack.  \
+ *                                                          \
+ * Precondition:                                            \
+ * The stack must not be empty.                             \
+ *                                                          \
+ * Example use:                                             \
+ * double pi_approx = double_stack_peek(my_stack)           \
+ */                                                         \
+TYPE NAME##_stack_peek(stack_type);
+
 
 /**
  * Stack types and associated names.

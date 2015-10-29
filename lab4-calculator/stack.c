@@ -2,6 +2,8 @@
 #include <assert.h>
 #include "stack.h"
 
+#include <stdio.h>
+
 struct node {
     void *data;
     struct node *next;
@@ -39,8 +41,6 @@ void NAME##_stack_push(struct stack *stack, TYPE value) \
     *ptr = value;                                       \
     ptr_stack_push(stack, ptr);                         \
 }
-// DEFINE_STACK_PUSH(double, double);
-// DEFINE_STACK_PUSH(char, char);
 
 void ptr_stack_push(struct stack *stack, void *value)
 {
@@ -62,8 +62,6 @@ TYPE NAME##_stack_pop(struct stack *stack)  \
     free(ptr);                              \
     return value;                           \
 }
-// DEFINE_STACK_POP(double, double);
-// DEFINE_STACK_POP(char, char);
 
 void *ptr_stack_pop(struct stack *stack)
 {
@@ -82,6 +80,24 @@ void *ptr_stack_pop(struct stack *stack)
     return value;
 }
 
+#define DEFINE_STACK_PEEK(TYPE, NAME)       \
+TYPE NAME##_stack_peek(struct stack *stack) \
+{                                           \
+    TYPE *ptr = ptr_stack_peek(stack);      \
+    TYPE value = *ptr;                      \
+    return value;                           \
+}
+
+void *ptr_stack_peek(struct stack *stack)
+{
+     /* Precondition: stack must not be empty */
+    assert(!stack_isempty(stack));
+
+    /* Get and return the top element */
+    struct node *top = stack->top;
+    return top->data;
+}
+
 _Bool stack_isempty(struct stack *stack)
 {
     return stack->top == NULL;
@@ -94,7 +110,8 @@ size_t stack_size(struct stack *stack)
 
 #define DEFINE_STACK(TYPE, NAME)        \
     DEFINE_STACK_PUSH(TYPE, NAME);      \
-    DEFINE_STACK_POP(TYPE, NAME);
+    DEFINE_STACK_POP(TYPE, NAME);       \
+    DEFINE_STACK_PEEK(TYPE, NAME);
 
 DEFINE_STACK(double, double);
 DEFINE_STACK(char, char);
