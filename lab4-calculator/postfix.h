@@ -3,8 +3,6 @@
 
 #include "stack.h"
 
-#define MAX_STRING 256
-
 /** Evaluates an expression in reverse polish notation
  *
  *  Parameters:
@@ -16,6 +14,22 @@
  *  INFINITY    if division by 0 occures
  */
 double evaluate(char *expression);
+
+/** Converts a string in infix notation to postfix notation.
+ *
+ *  Parameters:
+ *  char expression[] = infix expression
+ *  char result[] = equivalent postfix expression
+ *  
+ *  note: 
+ *  result should be big enough to fit expression expanded
+ *  with spaces. Double the size of expression necessarily
+ *  satisfies this condition.
+ *
+ *  note: 
+ *  Does not check if string is valid infix expression.
+ */
+char *infix_to_postfix(char *expression, char *result);
 
 /** Returns:
  * true         if ch is operator char

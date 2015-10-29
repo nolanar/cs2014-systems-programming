@@ -11,9 +11,11 @@ typedef struct tokenizer *tokenizer;
  */
 struct tokenizer *tokenizer_new(char *str, int start, char *delims);
 
-
+void tokenizer_free(struct tokenizer *toke);
 
 char *next_token(struct tokenizer *toke);
+
+char *peek_token(struct tokenizer *toke, char *next_token);
 
 _Bool isDelim(struct tokenizer *toke, char ch);
 

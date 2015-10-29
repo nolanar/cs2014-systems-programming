@@ -65,7 +65,8 @@ int priv_next_token(struct tokenizer *toke, char *token)
     if (priv_isDelim(toke, ch)) {
         token[i] = ch;
         i++;
-    } else {
+    }
+    else {
         while (ch != '\0' && !priv_isDelim(toke, ch)) {
             token[i] = ch;
             i++;
