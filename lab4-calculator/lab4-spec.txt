@@ -1,0 +1,64 @@
+CS2014 Lab 4 : Calculator
+
+Thursday 22nd October
+
+The goal of this project is to develop a calculator for simple
+arithmetic expressions in normal infix format. Your program should
+read in an expression and write out the value of that expression.
+
+For example, if the input is:
+	( 7 + 8 ) * 3 - 22
+The output should be:
+	23
+
+You can assume that there is a space between each token in the
+input, so you can use your string tokenizer to separate the
+tokens.
+
+A good way to evaluate expressions is to first convert them to reverse
+Polish notation (RPN), and then use the simple algorithm for
+evaluating RPN expressions.
+
+There is a simple algorithm for converting infix expresions
+to RPN, which uses a stack of operations.
+
+for each token in the input string {
+  if ( token is a number ) {
+    append token to the output string
+  }
+  else if (token is a left bracket) {
+    push bracket to stack
+  }
+  else if ( token in an operator ) {
+    while ( there is operator on top of stack with higher precedence ) {
+      pop stack and append popped operator to output string
+    }
+    push token operator to stack
+  }
+  else if ( token is right bracket ) {
+    while ( top of stack != '(' ) {
+      pop operator from stack and append to output string
+    pop left bracket
+  }
+}
+
+Finally, pop any remaining stack items and append them to the end of your
+reverse Polish notation expression.
+
+Your program should read a string from the user containing a normal
+(infix) expression. Your program should then convert the string to a
+string containing an RPN expression, and write out the RPN expression
+to the screen. Finally, you can use your RPN calculator from lab 3 to
+evaluate the expression, and write the result to the screen.
+
+When writing your program, you should build a stack abstract data type
+(ADT), which can store operators and brackets. Your stack ADT should
+provide functions to implement at least the following operation: push,
+pop, isempty.
+
+This lab will be marked, and will count towards your end of year mark.
+You should submit your work by 23.59 on Wednesday 28th October
+2015. To be marked, you must demonstrate and answer questions on your
+project at your regular lab session on Thursday 29th October. You must
+demonstrate the same code that you submit. All work should be your
+own.
