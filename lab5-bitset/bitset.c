@@ -7,9 +7,16 @@ struct bitset {
     unsigned char *bitvector;
 };
 
+/* Check if index is in range */
 int priv_in_range(struct bitset *this, int index);
+
+/* Returns the row index is in */
 int priv_get_row(struct bitset *this, int index);
+
+/* Sets the row index is in */
 void priv_set_row(struct bitset *this, int index, unsigned char row);
+
+/* Returns the bit index corresponds to */
 int priv_get_bit(struct bitset *this, int index);
 
 struct bitset *bitset_new(int size)

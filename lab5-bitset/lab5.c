@@ -2,9 +2,14 @@
 #include <string.h>
 #include "bitset.h"
 
-
+/**
+ * Map string to char bitset.
+ */
 void string_into_bitset(char *str, bitset_type set);
 
+/**
+ * Print space separated list of chars representing char bitset.
+ */
 void print_chars_in_set(bitset_type set);
 
 int main()
