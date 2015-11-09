@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "strlist.h"
 
 struct node {
@@ -28,7 +29,7 @@ struct node *node_new(char *str)
     return this;
 }
 
-struct list *list_new(struct list *this)
+struct list *list_new()
 {
     struct list *this = malloc(sizeof *this);
     this->size = 0;
