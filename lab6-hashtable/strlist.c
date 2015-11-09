@@ -109,18 +109,15 @@ char *list_remove(struct list *this, int index)
     return str;
 }
 
-char *list_remove_item(struct list *this, char *str)
+int list_remove_item(struct list *this, char *str)
 {
-    struct node *ptr = priv_get_node_at(this, index);
-    char *str;
-    if (ptr != NULL) {
-        str = ptr->str;
-        free(ptr);
-        this->size--;
-    } else {
-        str = NULL;
+    struct node *ptr = priv_get_node_with(this, str);
+    if (ptr == NULL) {
+        return 0;
     }
-    return str;
+    free(ptr);
+    this->size--;
+    return 1;
 }
 
 /**
