@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "strlist.h"
 
@@ -48,7 +49,7 @@ void list_free(struct list *this)
 
 int list_add(struct list *this, int index, char *str)
 {
-    if (0 < index || index > this->size) {
+    if (index < 0 || index > this->size) {
         return 0;
     }
 
@@ -74,7 +75,7 @@ int list_add(struct list *this, int index, char *str)
 
 int list_set(struct list *this, int index, char *str)
 {
-    if (0 < index || index >= this->size) {
+    if (index < 0 || index >= this->size) {
         return 0;
     }
 
@@ -84,7 +85,7 @@ int list_set(struct list *this, int index, char *str)
 
 char *list_get(struct list *this, int index)
 {
-    if (0 < index || index >= this->size) {
+    if (index < 0 || index >= this->size) {
         return NULL;
     }
 
@@ -99,7 +100,7 @@ int list_lookup(struct list *this, char *str)
 
 char *list_remove(struct list *this, int index)
 {
-    if (0 < index || index >= this->size) {
+    if (index < 0 || index >= this->size) {
         return NULL;
     }
 
@@ -154,7 +155,9 @@ struct node *priv_get_node_at(struct list *this, int index)
     struct node *ptr;
     if (index == this->size - 1) {
         ptr = this->tail;
-    } else {
+    }
+    else {
+        ptr = this->head;
         for (int i = 0; i < index; i++) {
             ptr = ptr->next;
         }
@@ -171,4 +174,25 @@ struct node *priv_get_node_with(struct list *this, char *str)
         }
     }
     return NULL; 
+}
+
+/* testing */
+void print_list(struct list *this)
+{
+    for (int i = 0; i < this->size; i++) {
+        printf("%s\n", list_get(this, i));
+    }
+}
+
+/**
+ * Test client:
+ */
+int main()
+{
+    struct list *my_list = list_new();
+    priv_add_to_empty(my_list, "This is a test");
+    priv_add_to_start(my_list, "And another");
+    priv_add_to_start(my_list, "Number three");
+    print_list(my_list);
+    return 0;
 }
