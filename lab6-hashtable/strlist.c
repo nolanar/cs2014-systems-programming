@@ -104,7 +104,18 @@ char *list_remove(struct list *this, int index)
         return NULL;
     }
 
-    struct node *ptr = priv_get_node_at(this, index);
+    struct node *ptr = this->head;
+    if (index == 0) {
+        this->head = this->head->next;
+    }
+    else {
+        struct node *prev = priv_get_node_at(this, index - 1);
+        ptr = prev->next;
+        prev->next = ptr->next;
+        if (ptr == this->tail) {
+            this->tail = prev;
+        }
+    }
     char *str = ptr->str;
     free(ptr);
     this->size--;
@@ -113,9 +124,24 @@ char *list_remove(struct list *this, int index)
 
 int list_remove_item(struct list *this, char *str)
 {
-    struct node *ptr = priv_get_node_with(this, str);
-    if (ptr == NULL) {
-        return 0;
+    struct node *ptr = this->head;
+    if (strcmp(this->head->str, str) == 0) {
+        this->head = this->head->next;        
+    }
+    else {
+        struct node *prev = ptr;
+        ptr = ptr->next;
+        while (ptr != NULL && strcmp(ptr->str, str) != 0) {
+            prev = ptr;
+            ptr = ptr->next;
+        }
+        if (ptr == NULL) {
+            return 0;
+        }
+        prev->next = ptr->next;
+        if (ptr == this->tail) {
+            this->tail = prev;
+        }
     }
     free(ptr);
     this->size--;
@@ -179,6 +205,7 @@ struct node *priv_get_node_with(struct list *this, char *str)
 /* testing */
 void print_list(struct list *this)
 {
+    printf("Size: %d\n", this->size);
     for (int i = 0; i < this->size; i++) {
         printf("%s\n", list_get(this, i));
     }
@@ -190,9 +217,13 @@ void print_list(struct list *this)
 int main()
 {
     struct list *my_list = list_new();
-    priv_add_to_empty(my_list, "This is a test");
-    priv_add_to_start(my_list, "And another");
-    priv_add_to_start(my_list, "Number three");
+    list_add(my_list, 0, "This is a test");
+    list_add(my_list, 0, "And another");
+    list_add(my_list, 0, "Number three");
+    list_remove(my_list, 2);
+    list_add(my_list, 2, "bang");
+    list_add(my_list, 3, "boom");
+    list_remove_item(my_list, "boom");
     print_list(my_list);
     return 0;
 }
