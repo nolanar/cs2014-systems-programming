@@ -1,10 +1,16 @@
 #ifndef STRLIST
 #define STRLIST
 
+#include <stddef.h>
+
 /**
  * Linked list of strings.
  */
-typedef struct  list *str_list;
+typedef struct list {
+    int size;
+    struct node *head;
+    struct node *tail;
+} *str_list;
 
 /**
  * Constructor.
@@ -71,5 +77,10 @@ char *list_remove(str_list this, int index);
  * 1 if str is in the list
  */
 int list_remove_item(str_list this, char *str);
+
+/**
+ * Returns the number of strings in the list.
+ */
+int list_size(str_list this);
 
 #endif
