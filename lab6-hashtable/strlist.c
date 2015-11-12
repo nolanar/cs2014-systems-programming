@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 #include "strlist.h"
 
@@ -118,6 +117,10 @@ char *list_remove(struct list *this, int index)
 
 int list_remove_item(struct list *this, char *str)
 {
+    if (this->size == 0) {
+        return 0;
+    }
+
     struct node *ptr = this->head;
     if (strcmp(this->head->str, str) == 0) {
         this->head = this->head->next;        
