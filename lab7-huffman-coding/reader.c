@@ -2,8 +2,30 @@
 #include <stdlib.h>
 #include <assert.h>
 
+void print_table(int *table)
+{
+    for (int i = 0; i < 256; i++) {
+        printf("%d%c", table[i], ((i+1)%8  == 0 ? '\n' : '\t'));
+    }
+}
+
+void zero_to_one(int *table)
+{
+    for (int i = 0; i < 256; i++) {
+        if (table[i] == 0) {
+            table[i] = 1;
+        }
+    }
+}
+
 int main(int argc, char ** argv)
 {
+    /* frequency vector */
+    int char_freq[256];
+    for (int i = 0; i < 256; i++) {
+        char_freq[i] = 0;
+    }
+
     unsigned char c;
     FILE * file;
 
@@ -16,10 +38,14 @@ int main(int argc, char ** argv)
     assert( file != NULL );
     c = fgetc(file);  // attempt to read a byte
     while( !feof(file) ) {
-        printf("%c", c);
+        // printf("%c", c);
+        char_freq[c] += 1;
         c = fgetc(file);
     }
     fclose(file);
+
+    zero_to_one(char_freq);
+    print_table(char_freq);
 
     return 0;  // exit without error code
 }
