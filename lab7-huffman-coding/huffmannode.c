@@ -1,6 +1,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include "huffmannode.h"
+
+#define swap(x, y) \
+{ \
+    struct node *swap = (x); \
+    (x) = (y); \
+    (y) = swap; \
+}
+
+/**
+ * Compares the weight of two nodes.
+ *
+ * Returns the difference of their weight:
+ * return < 0 if this < that
+ * return = 0 if this == that
+ * return > 0 if this > that
+ */
+int compare(struct node *this, struct node *that);
 
 struct node {
     int weight;
@@ -48,15 +66,9 @@ int get_weight(struct node *this)
     return this->weight;
 }
 
-int compare(struct node *this, struct node *that) {
+int compare(struct node *this, struct node *that) 
+{
     return this->weight - that->weight;
-}
-
-#define swap(x, y) \
-{ \
-    struct node *swap = (x); \
-    (x) = (y); \
-    (y) = swap; \
 }
 
 /**
