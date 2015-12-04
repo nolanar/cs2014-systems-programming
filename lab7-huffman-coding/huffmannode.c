@@ -66,6 +66,24 @@ int get_weight(struct node *this)
     return this->weight;
 }
 
+unsigned char get_char(struct node *this)
+{
+    assert(is_leaf(this));
+    return this->value.ch;
+} 
+
+struct node *left_child(struct node *this)
+{
+    assert(!is_leaf(this));
+    return this->value.children.left;
+}
+
+struct node *right_child(struct node *this)
+{
+    assert(!is_leaf(this));
+    return this->value.children.right;
+}
+
 int compare(struct node *this, struct node *that) 
 {
     return this->weight - that->weight;
@@ -120,34 +138,23 @@ void sort_nodes(struct node **nodes, int length)
     sort_nodes(nodes + (swap_pos + 1), length - (swap_pos + 1));
 }
 
-/**
- * test client
- */
-int main()
+int binary_search_nodes(huff_node *nodes, int length, huff_node node)
 {
-    struct node *parent = new_parent_node(new_leaf_node('l', 5), new_leaf_node('r', 10));
-    struct node *left = parent->value.children.left;
-    struct node *right = parent->value.children.right;
-    printf("parent: %d, %d\n  left: %c, %d\n  right: %c, %d\n", 
-        parent->is_leaf, parent->weight,
-        left->value.ch, left->weight,
-        right->value.ch, right->weight
-        );
-
-    int size = 26;
-    struct node *nodes[size];
-    for (int i = 0; i < size; i++) {
-        nodes[i] = new_leaf_node('a' + i, rand() % 100);
+    int value = get_weight(node);
+    int lower = 0;
+    int upper = length - 1;
+    while (lower <= upper) {
+        int mid = lower + (upper - lower) / 2;
+        int mid_weight = get_weight(nodes[mid]);
+        if (value == mid_weight) {
+            return mid;
+        }
+        else if (value < mid_weight) {
+            upper = mid - 1;
+        }
+        else if (value > mid_weight) {
+            lower = mid + 1;
+        }
     }
-    printf("\npre-sort:\n");
-    for (int i = 0; i < size; i++) {
-        printf("%c: %d\n", nodes[i]->value.ch, nodes[i]->weight);
-    }
-
-    sort_nodes(nodes, size);
-    printf("\npost-sort:\n");
-    for (int i = 0; i < size; i++) {
-        printf("%c: %d\n", nodes[i]->value.ch, nodes[i]->weight);
-    }
-
+    return lower;
 }

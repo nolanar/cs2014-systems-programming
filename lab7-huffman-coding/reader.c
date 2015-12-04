@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "huffmantree.h"
 
 void print_table(int *table)
 {
@@ -9,6 +10,9 @@ void print_table(int *table)
     }
 }
 
+/**
+ * Change any 0 elemenets to 1.
+ */
 void zero_to_one(int *table)
 {
     for (int i = 0; i < 256; i++) {
@@ -46,6 +50,9 @@ int main(int argc, char ** argv)
 
     zero_to_one(char_freq);
     print_table(char_freq);
+    
+    huff_tree tree = new_tree(char_freq);
+    print_tree(tree);
 
     return 0;  // exit without error code
 }
