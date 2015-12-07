@@ -27,16 +27,18 @@ struct node {
         struct {
             struct node *left;
             struct node *right;
-        } children;
-        unsigned char ch;
-    } value;
+        } parent;
+        struct {
+            unsigned char ch;
+        } leaf;
+    } type;
 };
 
 struct node *new_leaf_node(unsigned char ch, int weight)
 {
     struct node *this = malloc(sizeof *this);
     this->weight = weight;
-    this->value.ch = ch;
+    this->type.leaf.ch = ch;
     this->is_leaf = 1;
     return this;
 }
@@ -45,8 +47,8 @@ struct node *new_parent_node(struct node *left, struct node *right)
 {
     struct node *this = malloc(sizeof *this);
     this->weight = left->weight + right->weight;
-    this->value.children.left = left;
-    this->value.children.right = right;
+    this->type.parent.left = left;
+    this->type.parent.right = right;
     this->is_leaf = 0;
     return this;
 }
@@ -69,19 +71,19 @@ int get_weight(struct node *this)
 unsigned char get_char(struct node *this)
 {
     assert(is_leaf(this));
-    return this->value.ch;
+    return this->type.leaf.ch;
 } 
 
 struct node *left_child(struct node *this)
 {
     assert(!is_leaf(this));
-    return this->value.children.left;
+    return this->type.parent.left;
 }
 
 struct node *right_child(struct node *this)
 {
     assert(!is_leaf(this));
-    return this->value.children.right;
+    return this->type.parent.right;
 }
 
 int compare(struct node *this, struct node *that) 
