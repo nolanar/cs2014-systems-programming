@@ -8,13 +8,6 @@
  * TABLE_SIZE defined in huffmantree.h
  */
 
-void print_table(int *table)
-{
-    for (int i = 0; i < TABLE_SIZE; i++) {
-        printf("%d%c", table[i], ((i+1)%8  == 0 ? '\n' : '\t'));
-    }
-}
-
 int main(int argc, char ** argv)
 {
     /* frequency vector */
@@ -42,9 +35,9 @@ int main(int argc, char ** argv)
     fclose(file);
 
     char_freq[TABLE_SIZE - 1] = 1;
-    print_table(char_freq);
     
     huff_tree tree = new_tree(char_freq);
+    free_tree(tree);
 
     return 0;  // exit without error code
 }

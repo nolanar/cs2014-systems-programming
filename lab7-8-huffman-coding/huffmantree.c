@@ -11,7 +11,8 @@ struct tree {
 
 void priv_join_smallest(huff_node *nodes, int length);
 void priv_print_node(huff_node root, int path, int depth);
-void priv_code_leaves(struct tree *this, huff_node root, int depth);
+void priv_free_node(huff_node root);
+void priv_set_depths(huff_node root, int depth);
 
 struct tree *new_tree(int *char_freq)
 {
@@ -29,29 +30,38 @@ struct tree *new_tree(int *char_freq)
     }
     /* let this be the root of the huffman tree */
     this->root = nodes[0];
-    /* embed the path to each leaf into the leaves */
-    priv_code_leaves(this, this->root, 0);
+    /* set the depth each node has in the tree */
+    priv_set_depths(this->root, 0);
     return this;
 }
 
 void free_tree(struct tree *this)
 {
-    // TODO: implement
+    priv_free_node(this->root);
+    free(this);
 }
 
-void priv_code_leaves(struct tree *this, huff_node root, int depth)
+/* recursively free nodes in tree */
+void priv_free_node(huff_node root) 
+{
+    if (!is_leaf(root)) {
+        priv_free_node(left_child(root));
+        priv_free_node(right_child(root));
+    }
+    free_node(root);
+}
+
+void priv_set_depths(huff_node root, int depth)
 {
     
     if (is_leaf(root)) {
         set_depth(root, depth);
-        printf("%d: %d\n", get_key(root), depth); // DEBUG
+        printf("--------------------\n%c\t%d\t%d\n", get_key(root), get_key(root), depth); // DEBUG
         return;
     }
     /* if a parent node, recursively traverse children */
-    /* left child traverse */
-    priv_code_leaves(this, left_child(root), depth + 1);
-    /* right child traverse */
-    priv_code_leaves(this, right_child(root), depth + 1);
+    priv_set_depths(left_child(root), depth + 1);
+    priv_set_depths(right_child(root), depth + 1);
 }
 
 /**

@@ -17,6 +17,11 @@ typedef struct tree *huff_tree;
 huff_tree new_tree(int *char_freq);
 
 /**
+ * Destroy this Huffman tree.
+ */
+void free_tree(huff_tree);
+
+/**
  * Gets the coding corresponding to specified key.
  *
  * assert: key must be valid
