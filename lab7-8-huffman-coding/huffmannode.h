@@ -9,7 +9,7 @@ typedef struct node *huff_node;
 /**
  * Constructs a new leaf node.
  */
-huff_node new_leaf_node(unsigned char ch, int weight);
+huff_node new_leaf_node(int key, int weight);
 
 /**
  * Constructs a new parent node.
@@ -37,11 +37,25 @@ int is_leaf(huff_node this);
 int get_weight(huff_node this);
 
 /**
- * Gets the char value from a leaf node.
+ * Sets the value of this nodes depth.
  *
  * assert: must be a leaf node
  */
-unsigned char get_char(huff_node this);
+void set_depth(huff_node this, int depth);
+
+/**
+ * Gets the value of this nodes depth.
+ *
+ * assert: must be a leaf node
+ */
+int get_depth(huff_node this);
+
+/**
+ * Gets the key of a leaf node.
+ *
+ * assert: must be a leaf node
+ */
+int get_key(huff_node this);
 
 /**
  * Gets the left child of a parent node.

@@ -3,30 +3,23 @@
 #include <assert.h>
 #include "huffmantree.h"
 
+/**
+ * Note:
+ * TABLE_SIZE defined in huffmantree.h
+ */
+
 void print_table(int *table)
 {
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < TABLE_SIZE; i++) {
         printf("%d%c", table[i], ((i+1)%8  == 0 ? '\n' : '\t'));
-    }
-}
-
-/**
- * Change any 0 elemenets to 1.
- */
-void zero_to_one(int *table)
-{
-    for (int i = 0; i < 256; i++) {
-        if (table[i] == 0) {
-            table[i] = 1;
-        }
     }
 }
 
 int main(int argc, char ** argv)
 {
     /* frequency vector */
-    int char_freq[256];
-    for (int i = 0; i < 256; i++) {
+    int char_freq[TABLE_SIZE];
+    for (int i = 0; i < TABLE_SIZE; i++) {
         char_freq[i] = 0;
     }
 
@@ -48,11 +41,10 @@ int main(int argc, char ** argv)
     }
     fclose(file);
 
-    zero_to_one(char_freq);
+    char_freq[TABLE_SIZE - 1] = 1;
     print_table(char_freq);
     
     huff_tree tree = new_tree(char_freq);
-    print_tree(tree);
 
     return 0;  // exit without error code
 }

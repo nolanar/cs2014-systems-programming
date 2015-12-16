@@ -3,35 +3,34 @@
 #include <stdio.h>
 #include <assert.h>
 #include "huffmannode.h"
+#include "huffmantree.h"
 
 struct tree {
     huff_node root;
-    char **coding_table;
 };
 
 void priv_join_smallest(huff_node *nodes, int length);
 void priv_print_node(huff_node root, int path, int depth);
-void priv_code_leaves(struct tree *this, huff_node root, char *path, int depth);
+void priv_code_leaves(struct tree *this, huff_node root, int depth);
 
-struct tree *new_tree(int *char_freq, int size)
+struct tree *new_tree(int *char_freq)
 {
     struct tree *this = malloc(sizeof *this);
-    this->coding_table = malloc(256 * (sizeof *this->coding_table));
     /* create an array containing the leaves of the tree */
-    huff_node nodes[256];
-    for (int i = 0; i < 256; i++) {
+    huff_node nodes[TABLE_SIZE];
+    for (int i = 0; i < TABLE_SIZE; i++) {
         nodes[i] = new_leaf_node(i, char_freq[i]);
     }
     /* Sort the node array in ascending order */
-    sort_nodes(nodes, 256);
+    sort_nodes(nodes, TABLE_SIZE);
     /* repeatedly join two smallest nodes until just one remains */
-    for (int i = 0; i < 255; i++) {
-        priv_join_smallest(nodes, 256 - i);
+    for (int i = 0; i < TABLE_SIZE - 1; i++) {
+        priv_join_smallest(nodes, TABLE_SIZE - i);
     }
     /* let this be the root of the huffman tree */
     this->root = nodes[0];
     /* embed the path to each leaf into the leaves */
-    priv_code_leaves(this, this->root, NULL, 0);
+    priv_code_leaves(this, this->root, 0);
     return this;
 }
 
@@ -40,41 +39,19 @@ void free_tree(struct tree *this)
     // TODO: implement
 }
 
-char *get_coding(struct tree *this, unsigned key)
-{
-    return this->coding_table[key];
-}
-
-void priv_code_leaves(struct tree *this, huff_node root, char *path, int depth)
+void priv_code_leaves(struct tree *this, huff_node root, int depth)
 {
     
     if (is_leaf(root)) {
-        /* create null terminated string from current path */
-        char *coding = malloc(depth + 1);
-        memcpy(coding, path, depth);
-        coding[depth] = '\0';
-        /* set the coding corresponding to the leaf nodes as the path string */
-        this->coding_table[get_char(root)] = coding;
+        set_depth(root, depth);
+        printf("%d: %d\n", get_key(root), depth); // DEBUG
         return;
     }
     /* if a parent node, recursively traverse children */
     /* left child traverse */
-    char left_path[depth + 1];
-    memcpy(left_path, path, depth);
-    left_path[depth] = '0';
-    priv_code_leaves(this, left_child(root), left_path, depth + 1);
+    priv_code_leaves(this, left_child(root), depth + 1);
     /* right child traverse */
-    char right_path[depth + 1];
-    memcpy(right_path, path, depth);
-    right_path[depth] = '1';
-    priv_code_leaves(this, right_child(root), right_path, depth + 1);
-}
-
-void print_tree(struct tree *this)
-{
-    for (int i = 0; i < 256; i++) {
-        printf("%c:\t%s\n", i, this->coding_table[i]);
-    }
+    priv_code_leaves(this, right_child(root), depth + 1);
 }
 
 /**

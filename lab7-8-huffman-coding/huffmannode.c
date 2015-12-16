@@ -29,16 +29,18 @@ struct node {
             struct node *right;
         } parent;
         struct {
-            unsigned char ch;
+            int key;
+            int depth;
         } leaf;
     } type;
 };
 
-struct node *new_leaf_node(unsigned char ch, int weight)
+struct node *new_leaf_node(int key, int weight)
 {
     struct node *this = malloc(sizeof *this);
     this->weight = weight;
-    this->type.leaf.ch = ch;
+    this->type.leaf.key = key;
+    this->type.leaf.depth = 0;
     this->is_leaf = 1;
     return this;
 }
@@ -68,10 +70,22 @@ int get_weight(struct node *this)
     return this->weight;
 }
 
-unsigned char get_char(struct node *this)
+void set_depth(struct node *this, int depth)
+{
+    assert(this->is_leaf);
+    this->type.leaf.depth = depth;
+}
+
+int get_depth(struct node *this)
+{
+    assert(this->is_leaf);
+    return this->type.leaf.depth;
+}
+
+int get_key(struct node *this)
 {
     assert(is_leaf(this));
-    return this->type.leaf.ch;
+    return this->type.leaf.key;
 } 
 
 struct node *left_child(struct node *this)

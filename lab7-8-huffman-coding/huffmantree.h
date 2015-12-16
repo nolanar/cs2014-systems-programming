@@ -1,6 +1,11 @@
 #ifndef HUFFMAN_TREE_H
 #define HUFFMAN_TREE_H
 
+/* number of possible elements plus 1 for terminating character */
+#ifndef TABLE_SIZE
+#define TABLE_SIZE  257
+#endif
+
 /**
  * Huffman tree of chars.
  */
@@ -17,10 +22,5 @@ huff_tree new_tree(int *char_freq);
  * assert: key must be valid
  */
 char *get_coding(huff_tree this, unsigned key);
-
-/**
- * Prints the Huffman coding represented by the tree.
- */
-void print_tree(huff_tree this);
 
 #endif
